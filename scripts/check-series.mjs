@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import { Buffer } from 'node:buffer';
+import assert from 'node:assert/strict';
+const moduleUrl = source => 'data:text/javascript;base64,' + Buffer.from(source).toString('base64');
+const movies = moduleUrl(fs.readFileSync('src/utils/movies.js', 'utf8'));
+const { recentSeries } = await import(moduleUrl(fs.readFileSync('src/utils/series.js', 'utf8').replace("'./movies'", JSON.stringify(movies))));
+const now = Date.parse('2026-10-31T12:00:00Z');
+const day = 86400000;
+const item = (id, data) => ({ id, name: id, category: 'series', ...data });
+const library = [item('new', { addedAt: now - day }), item('updated', { addedAt: now - 20 * day, updatedAt: now - 1000 }), item('boundary', { addedAt: now - 5 * day }), item('old', { addedAt: now - 5 * day - 1 }), item('missing', {}), item('invalid', { addedAt: 'bad' }), item('future', { addedAt: now + 1 }), item('movie', { category: 'vod', addedAt: now }), item('seconds', { last_modified: (now - 2 * day) / 1000 })];
+const snapshot = JSON.stringify(library);
+assert.deepEqual(recentSeries(library, '', now).map(item => item.id), ['updated', 'new', 'seconds', 'boundary']);
+assert.deepEqual(recentSeries(library, 'NEW', now).map(item => item.id), ['new']);
+assert.equal(recentSeries(library, 'not found', now).length, 0);
+assert.equal(JSON.stringify(library), snapshot);
+console.log('Series date window, new/updated timestamps, newest-first order, search/count and immutability checks passed.');

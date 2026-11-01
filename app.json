@@ -1,0 +1,58 @@
+{
+  "expo": {
+    "name": "MyPlayer",
+    "slug": "myplayer",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/images/myplayer-icon.png",
+    "scheme": "myplayer",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "icon": "./assets/expo.icon"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0F172A",
+        "foregroundImage": "./assets/images/myplayer-mark.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.rajab.myplayer",
+      "versionCode": 1
+    },
+    "web": {
+      "output": "server",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0F172A",
+          "image": "./assets/images/myplayer-mark.png",
+          "imageWidth": 220,
+          "resizeMode": "contain"
+        }
+      ],
+      "expo-video",
+      "./plugins/withIptvHttp",
+      "expo-image",
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "fde9f3b2-808c-41de-ae8d-96ba094e6705"
+      }
+    },
+    "owner": "mydev26"
+  }
+}
