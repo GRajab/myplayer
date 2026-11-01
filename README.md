@@ -2,6 +2,14 @@
 
 Android-first Expo SDK 58 IPTV client with M3U and Xtream Codes support.
 
+## Download and install
+
+A complete, ready-to-install Android APK is available under [MyPlayer Version 1](https://github.com/GRajab/myplayer/releases/tag/v1.0.0). Open the release's **Assets** section and download the `.apk` file to your Android device. No Expo account or compilation is needed. Android may ask you to allow installation from your browser or file manager.
+
+## IPTV playlist required
+
+MyPlayer is a player only. You must supply your own IPTV playlist using an M3U URL or Xtream Codes server URL, username and password. We do not provide IPTV playlists, subscriptions, channels, movies, series or provider credentials. Add your playlist in Settings after installation.
+
 ## Run
 
 Use `npm install` then `npx expo start --clear`. Video playback uses `expo-video`, included in the matching SDK 58 Expo Go app. Rebuild older custom development clients after native dependency changes.
