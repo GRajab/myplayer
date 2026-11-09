@@ -67,7 +67,7 @@ function ChannelGridScreen() {
   }
   function play(item) {
     if (item.category === 'series') router.push({ pathname: '/series', params: { id: movieRouteId(item), playlistId: item.playlistId || activePlaylistId } });
-    else { setCurrentStream(item); router.push('/player'); }
+    else { setCurrentStream(item, filtered); router.push('/player'); }
   }
   const panel = <CategoryPanel pinnedCategories={live ? [] : [{ id: SERIES_RECENT, name: "Latest Updates", count: recent.length }]} itemLabel={live ? "channels" : "series"} key={categoryRevision} groups={orderedGroups} preferences={preferences} selected={activeGroup} favoriteCount={favoriteCount} totalCount={totalCount} onSelect={id => { chooseGroup(id); setCategoryModal(null); }} onOrganise={() => setCategoryModal('organise')} onShowHidden={showHidden} />;
 

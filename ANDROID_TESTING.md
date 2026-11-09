@@ -3,7 +3,7 @@
 The `preview` EAS profile produces a signed, standalone APK with bundled JavaScript. It runs without Expo Go or Metro.
 
 Package: `com.rajab.myplayer`
-Version: `1.0.0` (Android version code 1)
+Version: `1.1.0` (Android version code 2)
 
 Build from PowerShell in this folder:
 

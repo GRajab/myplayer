@@ -23,6 +23,7 @@ export function PlayerProvider({ children }) {
     return { ...entry, items: entry.items.map(item => item.id === id ? updated : item) };
   })), []);
   const [currentStream, setCurrentStream] = useState(null);
+  const [liveChannelList, setLiveChannelList] = useState(null);
   const [storage] = useState(() => createLibraryStorage(AsyncStorage));
   const writes = useRef(Promise.resolve());
   const requests = useRef(new Map());
@@ -70,13 +71,13 @@ export function PlayerProvider({ children }) {
       const entry = refreshEntry({ ...existing, id, name: options.name?.trim() || existing?.name || 'Playlist', config, favorites: existing?.favorites || [], history: existing?.history || [], hiddenChannels: existing?.hiddenChannels || [], categoryPreferences: existing?.categoryPreferences || {} }, items);
       return upsertPlaylist(old, entry, options.makeDefault);
     });
-    setCanPersist(true); setCurrentStream(null); setPlaylistError('');
+    setCanPersist(true); selectStream(null); setPlaylistError('');
   }
   async function activatePlaylist(id) {
     const entry = library.playlists.find(item => item.id === id);
     if (!entry) return;
     setLibrary(old => ({ ...old, activePlaylistId: id }));
-    setCurrentStream(null); setPlaylistError('');
+    selectStream(null); setPlaylistError('');
     const version = (requests.current.get(id) || 0) + 1;
     requests.current.set(id, version);
     setLoadingPlaylists(old => [...new Set([...old, id])]);
@@ -94,6 +95,10 @@ export function PlayerProvider({ children }) {
     const owner = stream.playlistId || library.activePlaylistId;
     setLibrary(old => updatePlaylist(old, owner, entry => ({ ...entry, history: [{ ...stream, position, duration, watchedAt: Date.now() }, ...entry.history.filter(item => item.id !== stream.id)].slice(0, 30) })));
   };
-  return <Context.Provider value={{ playlists: library.playlists, defaultPlaylistId: library.defaultPlaylistId, activePlaylistId: library.activePlaylistId, playlistConfig: active?.config || null, playlistName: active?.name || '', items: active?.items || [], favorites: active?.favorites || [], history: active?.history || [], categoryPreferences: active?.categoryPreferences || {}, hiddenChannels: active?.hiddenChannels || [], movieBrowsing, updateMovieBrowsing, cacheMovieDetails, ready, storageError, playlistLoading: loadingPlaylists.includes(library.activePlaylistId), playlistError: playlistError || active?.catalogueWarning || '', selectedCategory, setSelectedCategory, currentStream, setCurrentStream: stream => setCurrentStream(stream ? { ...stream, playlistId: stream.playlistId || library.activePlaylistId } : null), configure, activatePlaylist, setDefaultPlaylist, toggleFavorite, updateCategoryPreferences, record, episodes: item => loadEpisodes(active.config, item) }}>{children}</Context.Provider>;
+  function selectStream(stream, channels = null) {
+    setLiveChannelList(stream?.category === 'live' ? channels : null);
+    setCurrentStream(stream ? { ...stream, playlistId: stream.playlistId || library.activePlaylistId } : null);
+  }
+  return <Context.Provider value={{ playlists: library.playlists, defaultPlaylistId: library.defaultPlaylistId, activePlaylistId: library.activePlaylistId, playlistConfig: active?.config || null, playlistName: active?.name || '', items: active?.items || [], favorites: active?.favorites || [], history: active?.history || [], categoryPreferences: active?.categoryPreferences || {}, hiddenChannels: active?.hiddenChannels || [], movieBrowsing, updateMovieBrowsing, cacheMovieDetails, ready, storageError, playlistLoading: loadingPlaylists.includes(library.activePlaylistId), playlistError: playlistError || active?.catalogueWarning || '', selectedCategory, setSelectedCategory, currentStream, liveChannelList, setCurrentStream: selectStream, configure, activatePlaylist, setDefaultPlaylist, toggleFavorite, updateCategoryPreferences, record, episodes: item => loadEpisodes(active.config, item) }}>{children}</Context.Provider>;
 }
 export const usePlayer = () => useContext(Context);

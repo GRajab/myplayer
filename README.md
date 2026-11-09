@@ -4,7 +4,7 @@ Android-first Expo SDK 58 IPTV client with M3U and Xtream Codes support.
 
 ## Download and install
 
-A complete, ready-to-install Android APK is available under [MyPlayer Version 1](https://github.com/GRajab/myplayer/releases/tag/v1.0.0). Open the release's **Assets** section and download the `.apk` file to your Android device. No Expo account or compilation is needed. Android may ask you to allow installation from your browser or file manager.
+A complete, ready-to-install Android APK is available under [MyPlayer releases](https://github.com/GRajab/myplayer/releases/latest). Open the release's **Assets** section and download the `.apk` file to your Android device. No Expo account or compilation is needed. Android may ask you to allow installation from your browser or file manager.
 
 ## IPTV playlist required
 
@@ -26,7 +26,7 @@ Live TV categories always stay on the left, including phones. Favorites is pinne
 
 The sliders icon opens Organise. Drag grips reorder categories with an insertion line and edge auto-scroll. Use eye icons to hide/restore categories, the toolbar eye to reveal hidden categories and the reset icon to restore provider order. Tap Done to return to the updated category list. Screen readers also have reorder actions on the grip. New provider categories append after the saved order. Reordering never modifies stream records.
 
-Playback controls slide down after four seconds without interaction. Tap the bottom bar to reopen. Paused/error controls stay available. Track choices depend on the stream and decoder.
+Live TV controls start hidden. Tap the video to show them and they disappear after three seconds without interaction. Use Channel up/down in the controls or swipe up/down on the video to switch within the list you opened. Live TV offers audio track selection.
 
 ## Checks
 
@@ -36,7 +36,7 @@ Playback controls slide down after four seconds without interaction. Tap the bot
 - `node scripts/check-categories.mjs`
 - `node scripts/check-library.mjs`
 
-Playback diagnostics keep controls visible until video arrives and report a startup warning after 25 seconds. On supported Xtream live URLs, “Try alternate stream” switches between HLS and TS. M3U VLC playback headers and URL-suffix headers are preserved. Diagnostic messages omit provider URLs and credentials. Check these paths with `node scripts/check-playback.mjs`.
+Playback diagnostics report a startup warning after 25 seconds. In Live TV, tap to open the controls and see playback errors and retry options. On supported Xtream live URLs, “Try alternate stream” switches between HLS and TS. M3U VLC playback headers and URL-suffix headers are preserved. Diagnostic messages omit provider URLs and credentials. Check these paths with `node scripts/check-playback.mjs`.
 
 ## Movies
 
